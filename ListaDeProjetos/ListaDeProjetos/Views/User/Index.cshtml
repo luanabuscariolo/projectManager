@@ -1,0 +1,59 @@
+﻿@model ListaDeProjetos.Models.User.IndexViewModel;
+
+    <div class="container">
+        <div class="d-flex mb-3">
+            <div class="me-auto p-2">
+                <h1>Bem vindo!</h1>
+            </div>
+            <div class="p-2">
+                <a class="btn btn-success" asp-controller="Project" asp-action="Index">Projetos</a>
+            </div>
+            <div class="p-2">
+                <a class="btn btn-primary" asp-controller="User" asp-action="Register">Cadastrar Novo Usuário</a>
+            </div>
+        </div>
+
+        @if (TempData["MensagemSucesso"] != null)
+        {
+            <div class="alert alert-success text-light" role="alert">
+                @TempData["MensagemSucesso"]
+            </div>
+        }
+        @if (TempData["MensagemErro"] != null)
+        {
+            <div class="alert alert-danger text-light" role="alert">
+                @TempData["MensagemErro"]
+            </div>
+        }
+
+        <div class="row gap-3">
+            @{
+                foreach (var user in Model.Users)
+                {
+                <div class="col-sm text-center">
+                        <div class="card" style="width: 18rem;">
+                            <img src="images/usuario.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">@(user.Name)</h5>
+                                <p class="card-text">Atuando no(s) projeto(s):</p>
+                                <div class="list-group">
+                                @{
+                                    if (user.UserProjects != null)
+                                    {
+                                        foreach (var userProject in user.UserProjects)
+                                        {
+                                            <a href="#" class="list-group-item list-group-item-action list-group-item-info">@(userProject.Project.Title)</a>
+                                        }
+                                    }                                    
+                                }
+                                </div>
+                            <a class="btn btn-primary mt-3" asp-controller="Project" asp-action="Index" asp-route-userId="@(user.Id)">Entrar</a>
+                            <a class="btn btn-warning mt-3" asp-controller="User" asp-action="Modify" asp-route-id="@(user.Id)">Editar</a>
+                            <a class="btn btn-danger mt-3" asp-controller="User" asp-action="Delete" asp-route-id="@(user.Id)">Excluir</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>

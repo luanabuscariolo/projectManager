@@ -1,0 +1,45 @@
+﻿@model ListaDeProjetos.Models.Project.IndexViewModel;
+@{
+    ViewData["Title"] = "Projetos";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="text-primary">Lista de Projetos</h1>
+        <a class="btn btn-primary" asp-controller="Project" asp-action="Create">Novo Projeto</a>
+    </div>
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Título</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Responsável</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Início</th>
+                    <th scope="col">Entrega</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    foreach(var project in Model.Projects)
+                    {
+                        <tr>
+                            <th scope="row">@(project.Id)</th>
+                            <td>@(project.Title)</td>
+                            <td>@(project.Description)</td>
+                            <td>@(string.Join("/", project.UserProjects.Select(x=>x.User.Name).ToList()))</td>
+                            <td>@(project.Status)</td>
+                            <td>@(project.CreatedDate.ToString("dd/MM/yy"))</td>
+                            <td>@(project.FinishDate.ToString("dd/MM/yy"))</td>
+                            <td><a asp-controller="Task" asp-action="Index" asp-route-projectId="@(project.Id)" type="button" class="btn btn-outline-primary btn-sm">Visualizar</a></td>
+                            <td><a asp-controller="Project" asp-action="Update" asp-route-id="@(project.Id)" type="button" class="btn btn-outline-warning btn-sm">Editar</a></td>
+                            <td><a asp-controller="Project" asp-action="Delete" asp-route-id="@(project.Id)" type="button" class="btn btn-outline-danger btn-sm">Excluir</a></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

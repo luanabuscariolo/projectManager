@@ -1,0 +1,9 @@
+﻿<div class="container">
+    <h3>Tem certeza que deseja excluir essa tarefa?</h3>
+    <form method="post" asp-controller="Task" asp-action="Delete">
+        <div class="d-flex mt-3">
+            <a class="btn btn-success me-3" asp-controller="Task" asp-action="Index">Voltar</a>
+            <button class="btn btn-danger">Excluir</button>
+        </div>
+    </form>
+</div>

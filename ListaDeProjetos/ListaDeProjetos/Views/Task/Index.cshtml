@@ -1,0 +1,106 @@
+﻿@model ListaDeProjetos.Models.Task.IndexViewModel;
+@{
+    var hasError = (bool)ViewBag.HasError;
+    var errorMsg = (string)ViewBag.ErrorMsg;
+
+
+    if (!string.IsNullOrEmpty(errorMsg))
+    {
+        <div><strong>@(errorMsg)</strong></div>
+    }
+
+    if (!hasError)
+    {
+        <div class="container">
+            <div class="d-flex">
+                <div class="p-2 flex-grow-1">
+                    <h2 class="text-primary">Projeto <strong>@(Model.Project.Title)</strong></h2>
+                </div>
+                <div class="p-2">
+                    <a class="btn btn-success" asp-controller="Task" asp-action="Create" asp-route-projectId="@(Model.Project.Id)">Nova Tarefa</a>
+                </div>
+                <div class="p-2">
+                    <a class="btn btn-primary" asp-controller="Project" asp-action="Update" asp-route-id="@(Model.Project.Id)">Editar Projeto</a>
+                </div>
+                <div class="p-2">
+                    <a class="btn btn-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@(Model.Project.Id)">Excluir Projeto</a>
+                </div>
+            </div>
+                
+            <form>
+                <fieldset disabled>
+                    <div class="row">
+                        <div class="mb-3 col-6">
+                            <label asp-for="Project.Title" class="form-label">Título do Projeto:</label>
+                            <input asp-for="Project.Title" class="form-control">
+                        </div>
+                        <div class="mb-3 col-6">
+                            <label asp-for="Project.Description" class="form-label">Descrição do Projeto:</label>
+                            <input asp-for="Project.Description" class="form-control">
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label asp-for="Project.Status" class="form-label">Status do Projeto:</label>
+                            <input asp-for="Project.Status" class="form-control">
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label asp-for="Project.CreatedDate" class="form-label">Início do Projeto:</label>
+                            <input asp-for="Project.CreatedDate" class="form-control">
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label asp-for="Project.FinishDate" class="form-label">Final do Projeto:</label>
+                            <input asp-for="Project.FinishDate" class="form-control">
+                        </div>
+                        <div class="mb-3 col-4">
+                            <label asp-for="Project.UserProjects" class="form-label">Responsáveis pelo Projeto:</label>
+                            <select asp-for="Project.UserProjects" 
+                                asp-items="@(new SelectList(Model.Project.UserProjects
+                                .Select(x => x.User.Name)
+                                .ToList()))" 
+                                class="form-control" disabled>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="text-center">
+            <h3 class="text-primary">Tarefas Do Projeto @(Model.Project.Title)</h3>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">Projeto</th>
+                        <th scope="col">Título</th>
+                        <th scope="col">Descrição</th>
+                        <th scope="col">Responsável</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Início</th>
+                        <th scope="col">Entrega</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (var task in Model.Tasks)
+                        {
+                            <tr>
+                                <th scope="row">@(task.Project.Title)</th>
+                                <td>@(task.Title)</td>
+                                <td>@(task.Description)</td>
+                                <td>@(task.User.Name)</td>
+                                <td>@(task.Status)</td>
+                                <td>@(task.CreatedDate.ToString("dd/MM/yy"))</td>
+                                <td>@(task.FinishDate.ToString("dd/MM/yy"))</td>
+                                <td><a asp-controller="Task" asp-action="Update" asp-route-id="@(task.Id)" type="button" class="btn btn-outline-warning btn-sm">Editar</a></td>
+                                <td><a asp-controller="Task" asp-action="Delete" asp-route-id="@(task.Id)"  type="button" class="btn btn-outline-danger btn-sm">Excluir</a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+    }
+}
+
