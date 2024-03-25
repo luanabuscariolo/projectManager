@@ -96,7 +96,7 @@ namespace ListaDeProjetos.Controllers
             }
             else
             {
-                return View();
+                return View(taskVm);
             }
         }
 
