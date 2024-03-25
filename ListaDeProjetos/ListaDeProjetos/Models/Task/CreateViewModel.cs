@@ -19,8 +19,7 @@ namespace ListaDeProjetos.Models.Task
         [Required(ErrorMessage = "Obrigatório Data de Entrega da Tarefa")]
         public DateTime FinishDate { get; set; }
 
-        [Required(ErrorMessage = "Obrigatório Status da Tarefa 1")]
-        [Range(1,int.MaxValue, ErrorMessage = "Obrigatório Status da Tarefa 2")]
+        [Range(1, int.MaxValue, ErrorMessage = "Obrigatório informar Usuário")]
         public int UserId { get; set; }
 
         public int ProjectId { get; set; }

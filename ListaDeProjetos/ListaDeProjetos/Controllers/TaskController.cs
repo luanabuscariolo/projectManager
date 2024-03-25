@@ -59,7 +59,9 @@ namespace ListaDeProjetos.Controllers
 
             var initialViewModel = new CreateViewModel()
             {
-                ProjectId = projectId
+                ProjectId = projectId,
+                CreatedDate = DateTime.Now.Date,
+                FinishDate = DateTime.Now.Date
             };
 
             return View(initialViewModel);
