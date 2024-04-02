@@ -109,7 +109,7 @@ namespace ListaDeProjetos.Controllers
             var userList = dbContext.Users.ToList();
             var projectList = dbContext.Projects.ToList();
 
-            ViewBag.UsersList = new SelectList(userList, nameof(DBModels.User.Id), nameof(DBModels.User.Name));
+            ViewBag.UserList = new SelectList(userList, nameof(DBModels.User.Id), nameof(DBModels.User.Name));
             ViewBag.ProjectList = new SelectList(projectList, nameof(DBModels.Project.Id), nameof(DBModels.Project.Title));
 
             if (id == null)
@@ -142,8 +142,10 @@ namespace ListaDeProjetos.Controllers
         public IActionResult Update(UpdateViewModel taskVm)
         {
             using var dbContext = new ListaDeProjetosContext();
+
             var userList = dbContext.Users.ToList();
             var projectList = dbContext.Projects.ToList();
+
             ViewBag.UserList = new SelectList(userList, nameof(DBModels.User.Id), nameof(DBModels.User.Name));
             ViewBag.ProjectList = new SelectList(projectList, nameof(DBModels.Project.Id), nameof(DBModels.Project.Title));
 
