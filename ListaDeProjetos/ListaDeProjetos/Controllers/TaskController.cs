@@ -51,9 +51,21 @@ namespace ListaDeProjetos.Controllers
         {
             using var dbContext = new ListaDeProjetosContext();
 
-            var userList = dbContext.Users.ToList();
+            // Busca o projeto pelo projectId
+            var project = dbContext.Projects.Include(x => x.UserProjects).ThenInclude(x => x.User).FirstOrDefault(x => x.Id == projectId);
+
+            if (project == null)
+            {
+                return NotFound("Projeto não encontrado");
+            }
+
+            // Lista somente os usuários que participam do projeto
+            var userList = project.UserProjects.Select(x => x.User).ToList();
+            //var userList = dbContext.Users.ToList(); AQUI LISTAVA TODOS OS PARTICIPANTES CADASTRADOS NO BD
+
             var projectList = dbContext.Projects.Where(x => x.Id == projectId).ToList();
 
+            // Configura a lista de usuários para a view
             ViewBag.UsersList = new SelectList(userList, nameof(DBModels.User.Id), nameof(DBModels.User.Name));
             ViewBag.ProjectsList = new SelectList(projectList, nameof(DBModels.Project.Id), nameof(DBModels.Project.Title));
 
@@ -72,8 +84,16 @@ namespace ListaDeProjetos.Controllers
         {
             using var dbContext = new ListaDeProjetosContext();
 
-            var userList = dbContext.Users.ToList();
-            var projectList = dbContext.Projects.ToList();
+            var project = dbContext.Projects.Include(x => x.UserProjects).ThenInclude(x => x.User).FirstOrDefault(x => x.Id == taskVm.ProjectId);
+
+            if (project == null)
+            {
+                return NotFound("Projeto não encontrado");
+            }
+
+            var userList = project.UserProjects.Select(x => x.User).ToList();
+
+            var projectList = dbContext.Projects.Where(x => x.Id == taskVm.ProjectId).ToList();
 
             ViewBag.UsersList = new SelectList(userList, nameof(DBModels.User.Id), nameof(DBModels.User.Name));
             ViewBag.ProjectsList = new SelectList(projectList, nameof(DBModels.Project.Id), nameof(DBModels.Project.Title));
@@ -106,6 +126,7 @@ namespace ListaDeProjetos.Controllers
         public IActionResult Update(int? id)
         {
             using var dbContext = new ListaDeProjetosContext();
+
             var userList = dbContext.Users.ToList();
             var projectList = dbContext.Projects.ToList();
 
