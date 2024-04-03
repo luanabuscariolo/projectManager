@@ -26,7 +26,15 @@
                     <a class="btn btn-danger" asp-controller="Project" asp-action="Delete" asp-route-id="@(Model.Project.Id)">Excluir Projeto</a>
                 </div>
             </div>
-                
+            
+            @if (TempData["TaskMsgSucess"] != null)
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong>@TempData["TaskMsgSucess"]</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
             <form>
                 <fieldset disabled>
                     <div class="row">

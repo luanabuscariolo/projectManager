@@ -114,10 +114,14 @@ namespace ListaDeProjetos.Controllers
                 dbContext.Tasks.Add(task);
                 dbContext.SaveChanges();
 
+                TempData["TaskMsgSucess"] = "Nova tarefa criada com sucesso!";
+
                 return RedirectToAction("Index", new { projectId = task.ProjectId });
             }
             else
             {
+                TempData["TaskMsgError"] = "Erro ao criar nova tarefa!";
+
                 return View(taskVm);
             }
         }

@@ -3,5 +3,5 @@
         $(".alert").fadeOut("slow", function () {
             $(this).alert('close');
         })
-    }, 3000)
+    }, 5000)
 });

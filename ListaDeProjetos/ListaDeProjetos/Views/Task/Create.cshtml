@@ -8,6 +8,13 @@
 <div class="container">
     <h2 class="text-primary">Criar nova Tarefa:</h2>
     <hr class="col-6" />
+    @if (TempData["TaskMsgError"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>@TempData["TaskMsgError"]</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
     <form method="post" asp-controller="Task" asp-action="Create">
         <div class="row">
             <div class="mb-3 col-6">
